@@ -1,0 +1,19 @@
+title: "Чайная Лавка"
+description: "Лучший чай из Китая, Индии и Цейлона. Прямые поставки, натуральный продукт."
+email: "hello@tea-lavka.ru"
+phone: "+7 (999) 123-45-67"
+
+social:
+  telegram: "https://t.me/tea_lavka"
+  whatsapp: "https://wa.me/79991234567"
+
+collections:
+  products:
+    output: false
+
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"

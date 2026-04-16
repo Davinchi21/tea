@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Чайная Лавка — Лучший чай из Китая, Индии и Японии</title>
+  <meta name="description" content="Лучший чай из Китая, Индии и Цейлона. Прямые поставки, натуральный продукт.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+  <header class="header">
+  <div class="container">
+    <div class="logo">🍃 Чайная Лавка</div>
+    <nav class="nav">
+      <a href="#about">О нас</a>
+      <a href="#products">Каталог</a>
+      <a href="#benefits">Преимущества</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#contact" class="btn btn-small">Заказать</a>
+    </nav>
+  </div>
+</header>
+
+  
+  <main>
+    <section class="hero" id="home">
+  <div class="container">
+    <div class="hero-content">
+      <h1>Настоящий чай для настоящих ценителей</h1>
+      <p class="hero-text">Прямые поставки из лучших чайных плантаций мира. Без посредников, без добавок, только чистый вкус.</p>
+      <div class="hero-buttons">
+        <a href="#products" class="btn btn-primary">Выбрать чай</a>
+        <a href="#about" class="btn btn-secondary">Узнать больше</a>
+      </div>
+      <div class="hero-features">
+        <div class="feature">
+          <span class="feature-icon">🌿</span>
+          <span>100% натуральный</span>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">📦</span>
+          <span>Доставка за 2 дня</span>
+        </div>
+        <div class="feature">
+          <span class="feature-icon">🏆</span>
+          <span>Премии за качество</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-image">
+      <div class="tea-circle">🍵</div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-content">
+        <h2>История чайной лавки</h2>
+        <p>Мы путешествуем по чайным регионам мира уже 10 лет. Лично отбираем каждый сорт, проверяем качество на месте.</p>
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-number">50+</div>
+            <div class="stat-label">Сортов чая</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">5000+</div>
+            <div class="stat-label">Довольных клиентов</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="products" id="products">
+  <div class="container">
+    <h2 class="section-title">Наши чаи</h2>
+  <div class="products-grid">
+      <div class="product-card">
+        <h3>Да Хун Пао</h3>
+        <p class="product-price">2 500 ₽</p>
+        <button class="btn btn-primary">В корзину</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="benefits" id="benefits">
+  <div class="container">
+    <h2 class="section-title">Почему выбирают нас</h2>
+    <div class="benefits-grid">
+      <div class="benefit">
+        <div class="benefit-icon">✈️</div>
+        <h3>Прямые поставки</h3>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="reviews" id="reviews">
+  <div class="container">
+    <h2 class="section-title">Отзывы</h2>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <p>"Отличный чай!"</p>
+    </div>
+  </div>
+&lt;/section&gt;
+
+
+<section class="cta" id="contact">
+  <div class="container">
+    <h2>Заказать чай</h2>
+    <form class="cta-form">
+      <input type="text" placeholder="Ваше имя" />
+      <button class="btn btn-accent">Отправить</button>
+    </form>
+  </div>
+</section>
+
+</div></section>
+
+  </main>
+  
+  <footer class="footer">
+  <div class="container">
+    <p>&copy; 2024 Чайная Лавка</p>
+  </div>
+</footer>
+
+  
+  <script>
+    // Плавная прокрутка
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
