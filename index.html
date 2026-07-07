@@ -1,56 +1,456 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Р§Р°Р№РЅР°СЏ Р›Р°РІРєР° вЂ” Р›СѓС‡С€РёР№ С‡Р°Р№ РёР· РљРёС‚Р°СЏ, РРЅРґРёРё Рё РЇРїРѕРЅРёРё</title>
-  <meta name="description" content="Р›СѓС‡С€РёР№ С‡Р°Р№ РёР· РљРёС‚Р°СЏ, РРЅРґРёРё Рё Р¦РµР№Р»РѕРЅР°. РџСЂСЏРјС‹Рµ РїРѕСЃС‚Р°РІРєРё, РЅР°С‚СѓСЂР°Р»СЊРЅС‹Р№ РїСЂРѕРґСѓРєС‚.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/tea/assets/css/main.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Чайная Лавка — Лучший чай из Китая, Индии и Японии</title>
+<meta name="description" content="Лучший чай из Китая, Индии и Цейлона. Прямые поставки, натуральный продукт.">
+<meta name="theme-color" content="#2d6a4f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&amp;family=Open+Sans:wght@400;600&amp;display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   Чайная Лавка — Main Stylesheet
+   ═══════════════════════════════════════════ */
+
+:root {
+  --primary: #2d6a4f;
+  --primary-dark: #1b4332;
+  --primary-light: #40916c;
+  --accent: #d4a373;
+  --dark: #2d3e2d;
+  --light: #f8f9fa;
+  --gray: #6c757d;
+  --white: #ffffff;
+  --shadow: 0 4px 6px rgba(0,0,0,0.1);
+  --shadow-hover: 0 12px 28px rgba(0,0,0,0.15);
+  --radius: 12px;
+  --radius-lg: 20px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: var(--dark);
+  line-height: 1.7;
+  background: var(--light);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 700; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+.section-label {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+/* ════════════════ КНОПКИ ════════════════ */
+.btn {
+  display: inline-block;
+  padding: 14px 32px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: var(--transition);
+  cursor: pointer;
+  border: none;
+  font-size: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary { background: var(--primary); color: var(--white); }
+.btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.btn-secondary { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+.btn-secondary:hover { background: var(--primary); color: var(--white); }
+.btn-accent { background: var(--accent); color: var(--white); }
+.btn-accent:hover { background: #c49a6c; transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.btn-small { padding: 10px 22px; font-size: 14px; }
+
+/* ════════════════ ШАПКА ════════════════ */
+.header {
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+}
+.logo { font-size: 24px; font-weight: 700; font-family: 'Playfair Display', serif; color: var(--primary); }
+
+.nav { display: flex; gap: 28px; align-items: center; }
+.nav a { text-decoration: none; color: var(--dark); font-weight: 500; transition: var(--transition); position: relative; }
+.nav a:hover { color: var(--primary); }
+.nav a::after {
+  content: ''; position: absolute; bottom: -3px; left: 0;
+  width: 0; height: 2px; background: var(--primary);
+  transition: var(--transition);
+}
+.nav a:hover::after { width: 100%; }
+
+/* Гамбургер */
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 5px;
+}
+.hamburger span {
+  display: block; width: 26px; height: 2px;
+  background: var(--dark); border-radius: 2px;
+  transition: var(--transition);
+}
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+/* Корзина в шапке */
+.cart-btn {
+  background: rgba(45,106,79,0.1);
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 8px 14px;
+  border-radius: 25px;
+  position: relative;
+  transition: var(--transition);
+}
+.cart-btn:hover { background: rgba(45,106,79,0.2); }
+.cart-count {
+  position: absolute; top: -5px; right: -5px;
+  background: var(--accent); color: white; font-size: 11px;
+  font-weight: 700; width: 20px; height: 20px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  transition: var(--transition);
+}
+
+/* ════════════════ ГЕРОЙ ════════════════ */
+.hero {
+  background: linear-gradient(135deg, #f5f0e8 0%, #e8dfd3 50%, #f0e8dc 100%);
+  padding: 100px 0 80px;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.hero-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 20px;
+  background: rgba(45,106,79,0.1);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.hero-content h1 {
+  font-size: 52px;
+  margin-bottom: 20px;
+  color: var(--primary-dark);
+  line-height: 1.15;
+}
+.hero-text {
+  font-size: 18px;
+  margin-bottom: 30px;
+  color: var(--gray);
+  max-width: 500px;
+}
+.hero-buttons { display: flex; gap: 15px; margin-bottom: 40px; flex-wrap: wrap; }
+.hero-features { display: flex; gap: 30px; flex-wrap: wrap; }
+.feature { display: flex; align-items: center; gap: 10px; font-size: 15px; color: var(--gray); }
+.feature-icon { font-size: 28px; }
+
+/* Анимация листьев */
+.hero-decoration { position: relative; display: flex; justify-content: center; align-items: center; }
+.tea-circle { font-size: 220px; text-align: center; animation: float 3s ease-in-out infinite; }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+.tea-leaf {
+  position: absolute; font-size: 36px; animation: leafDrift 4s ease-in-out infinite;
+}
+.l1 { top: 10%; right: 10%; animation-delay: 0s; }
+.l2 { bottom: 15%; right: 20%; animation-delay: 1.5s; font-size: 28px; }
+.l3 { top: 20%; left: 10%; animation-delay: 3s; font-size: 32px; }
+@keyframes leafDrift {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 0.6; }
+  50% { transform: translate(15px, -15px) rotate(15deg); opacity: 1; }
+}
+
+/* ════════════════ О НАС ════════════════ */
+.about { background: var(--white); padding: 100px 0; }
+.about-content h2 { font-size: 40px; margin-bottom: 16px; color: var(--primary-dark); }
+.about-content p { font-size: 17px; color: var(--gray); max-width: 600px; line-height: 1.8; }
+.stats { display: flex; gap: 50px; margin-top: 40px; flex-wrap: wrap; }
+.stat { text-align: center; }
+.stat-number { font-size: 52px; font-weight: 700; color: var(--primary); font-family: 'Playfair Display', serif; }
+.stat-label { color: var(--gray); font-size: 15px; }
+
+/* ════════════════ ТОВАРЫ ════════════════ */
+.products { padding: 100px 0; background: var(--light); }
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 28px;
+}
+.product-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 30px 25px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+.product-tag {
+  position: absolute; top: 12px; right: 12px;
+  padding: 4px 12px; border-radius: 15px;
+  color: white; font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.product-card h3 { font-size: 22px; margin-bottom: 8px; color: var(--primary-dark); margin-top: 8px; }
+.product-card > p { font-size: 14px; color: var(--gray); line-height: 1.6; }
+.product-meta { font-size: 13px !important; color: var(--primary-light) !important; margin-top: 8px; }
+.product-price { font-size: 26px; font-weight: 700; color: var(--accent); margin: 16px 0 20px; }
+.product-card .btn { width: 100%; }
+
+/* ════════════════ ПРЕИМУЩЕСТВА ════════════════ */
+.benefits {
+  background: linear-gradient(135deg, #e8dfd3 0%, #f5f0e8 100%);
+  padding: 100px 0;
+}
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+  text-align: center;
+}
+.benefit { padding: 20px; transition: var(--transition); }
+.benefit:hover { transform: translateY(-4px); }
+.benefit-icon { font-size: 48px; margin-bottom: 16px; display: block; }
+.benefit h3 { margin-bottom: 8px; font-size: 18px; }
+.benefit p { color: var(--gray); font-size: 14px; }
+
+/* ════════════════ ОТЗЫВЫ ════════════════ */
+.reviews { padding: 100px 0; background: var(--white); }
+.reviews-carousel { max-width: 600px; margin: 0 auto; position: relative; min-height: 240px; }
+.review-card {
+  position: absolute; top: 0; left: 0; right: 0;
+  opacity: 0; transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateX(30px); pointer-events: none;
+}
+.review-card.active { opacity: 1; transform: translateX(0); position: relative; pointer-events: all; }
+.review-stars { font-size: 22px; color: #f1c40f; margin-bottom: 16px; letter-spacing: 4px; }
+.review-text { font-style: italic; font-size: 17px; line-height: 1.8; color: var(--dark); margin-bottom: 20px; }
+.review-author { display: flex; align-items: center; gap: 14px; justify-content: center; }
+.review-avatar {
+  width: 48px; height: 48px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 700; font-size: 20px;
+}
+
+.reviews-dots { display: flex; justify-content: center; gap: 10px; margin-top: 30px; }
+.dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #ddd; border: none; cursor: pointer;
+  transition: var(--transition);
+}
+.dot.active { background: var(--primary); transform: scale(1.3); }
+
+/* ════════════════ CTA ════════════════ */
+.cta {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+  color: var(--white);
+  text-align: center;
+  padding: 100px 0;
+}
+.cta h2 { font-size: 40px; margin-bottom: 12px; }
+.cta-sub { font-size: 17px; margin-bottom: 36px; opacity: 0.85; }
+.cta-form { max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+.form-row { display: flex; gap: 14px; }
+.cta-form input {
+  flex: 1; padding: 14px 20px; border-radius: 12px;
+  border: none; font-size: 15px; width: 100%;
+  background: rgba(255,255,255,0.15);
+  color: white; transition: var(--transition);
+}
+.cta-form input::placeholder { color: rgba(255,255,255,0.6); }
+.cta-form input:focus { outline: none; background: rgba(255,255,255,0.25); }
+
+/* ════════════════ ПОДВАЛ ════════════════ */
+.footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.8);
+  padding: 60px 0 0;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 40px;
+  margin-bottom: 40px;
+}
+.footer-logo { font-size: 22px; font-weight: 700; font-family: 'Playfair Display', serif; color: white; margin-bottom: 12px; }
+.footer-desc { font-size: 14px; line-height: 1.7; margin-bottom: 20px; }
+.footer-social { display: flex; gap: 14px; }
+.footer-social a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 15px; transition: var(--transition); }
+.footer-social a:hover { color: var(--accent); }
+.footer-col h4 { color: white; font-size: 17px; margin-bottom: 16px; }
+.footer-col p { font-size: 14px; margin-bottom: 8px; }
+.footer-col a { display: block; color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; margin-bottom: 8px; transition: var(--transition); }
+.footer-col a:hover { color: var(--accent); }
+.footer-form { display: flex; gap: 8px; margin-top: 12px; }
+.footer-form input {
+  flex: 1; padding: 10px 14px; border-radius: 25px;
+  border: 1px solid rgba(255,255,255,0.2); background: transparent;
+  color: white; font-size: 14px;
+}
+.footer-form input::placeholder { color: rgba(255,255,255,0.4); }
+.footer-form input:focus { outline: none; border-color: var(--accent); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+}
+
+/* ════════════════ КОРЗИНА ════════════════ */
+.cart-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4); z-index: 2000;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+}
+.cart-overlay.active { opacity: 1; pointer-events: all; }
+
+.cart-panel {
+  position: fixed; top: 0; right: 0; bottom: 0;
+  width: 400px; max-width: 90vw;
+  background: white; z-index: 2001;
+  display: flex; flex-direction: column;
+  transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+}
+.cart-panel.active { transform: translateX(0); }
+.cart-header { display: flex; justify-content: space-between; align-items: center; padding: 24px; border-bottom: 1px solid #eee; }
+.cart-header h2 { font-size: 22px; }
+.cart-close { background: none; border: none; font-size: 28px; cursor: pointer; color: var(--gray); }
+.cart-items { flex: 1; overflow-y: auto; padding: 16px 24px; }
+.cart-empty { text-align: center; color: var(--gray); margin-top: 40px; }
+.cart-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 0; border-bottom: 1px solid #f0f0f0;
+}
+.cart-item-name { font-weight: 600; margin-bottom: 4px; }
+.cart-item-price { font-size: 14px; color: var(--gray); }
+.cart-item-remove {
+  background: none; border: none; color: #e74c3c;
+  font-size: 22px; cursor: pointer; padding: 0 8px;
+}
+.cart-footer { padding: 16px 24px 24px; border-top: 1px solid #eee; }
+.cart-total { font-size: 20px; font-weight: 700; margin-bottom: 12px; text-align: center; }
+
+/* ════════════════ TOAST ════════════════ */
+.toast {
+  position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--dark); color: white;
+  padding: 14px 28px; border-radius: 12px;
+  font-size: 15px; font-weight: 500;
+  box-shadow: var(--shadow-hover);
+  opacity: 0; transition: all 0.4s ease;
+  z-index: 3000; pointer-events: none;
+}
+.toast.active { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ════════════════ Секции общие ════════════════ */
+section { padding: 100px 0; }
+.section-title { text-align: center; font-size: 40px; margin-bottom: 50px; color: var(--primary-dark); }
+
+/* ════════════════ АДАПТИВ ════════════════ */
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+  .nav {
+    display: none; position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; background: white; padding: 20px;
+    box-shadow: var(--shadow); gap: 16px;
+  }
+  .nav.active { display: flex; }
+  .hero .container { grid-template-columns: 1fr; text-align: center; }
+  .hero-content h1 { font-size: 34px; }
+  .hero-features { justify-content: center; }
+  .hero-text { max-width: none; }
+  .hero { padding: 60px 0; min-height: auto; }
+  .tea-circle { font-size: 140px; }
+  .section-title { font-size: 28px; }
+  .section-label { text-align: center; display: block; }
+  .stats { justify-content: center; }
+  .stat-number { font-size: 36px; }
+  .header .container { padding: 12px 16px; }
+  .about-content h2 { font-size: 30px; text-align: center; }
+  .about-content p { max-width: none; text-align: center; }
+  .cta h2 { font-size: 30px; }
+  .form-row { flex-direction: column; }
+  .cart-panel { width: 100vw; }
+}
+
+@media (max-width: 480px) {
+  .hero-buttons { flex-direction: column; }
+  .btn { text-align: center; }
+  .products-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .awards-grid { grid-template-columns: 1fr; }
+}
+</style>
 </head>
 <body>
-  <header class="header">
-  <div class="container">
-    <div class="logo">рџЌѓ Р§Р°Р№РЅР°СЏ Р›Р°РІРєР°</div>
-    <nav class="nav">
-      <a href="#about">Рћ РЅР°СЃ</a>
-      <a href="#products">РљР°С‚Р°Р»РѕРі</a>
-      <a href="#benefits">РџСЂРµРёРјСѓС‰РµСЃС‚РІР°</a>
-      <a href="#reviews">РћС‚Р·С‹РІС‹</a>
-      <a href="#contact" class="btn btn-small">Р—Р°РєР°Р·Р°С‚СЊ</a>
-    </nav>
-  </div>
-</header>
 
-  
-  <main>
-    <section class="hero" id="home">
+<header class="header"><div class="container"><div class="logo">🍃 Чайная Лавка</div><button class="hamburger" id="hamburger" aria-label="Меню"><span></span><span></span><span></span></button><nav class="nav" id="nav"><a href="#about">О нас</a><a href="#products">Каталог</a><a href="#benefits">Преимущества</a><a href="#reviews">Отзывы</a><a href="#contact" class="btn btn-small">Заказать</a></nav><button class="cart-btn" id="cartBtn" aria-label="Корзина">🛒 <span class="cart-count" id="cartCount">0</span></button></div></header>
+
+<main>
+<section class="hero" id="home">
   <div class="container">
     <div class="hero-content">
-      <h1>РќР°СЃС‚РѕСЏС‰РёР№ С‡Р°Р№ РґР»СЏ РЅР°СЃС‚РѕСЏС‰РёС… С†РµРЅРёС‚РµР»РµР№</h1>
-      <p class="hero-text">РџСЂСЏРјС‹Рµ РїРѕСЃС‚Р°РІРєРё РёР· Р»СѓС‡С€РёС… С‡Р°Р№РЅС‹С… РїР»Р°РЅС‚Р°С†РёР№ РјРёСЂР°. Р‘РµР· РїРѕСЃСЂРµРґРЅРёРєРѕРІ, Р±РµР· РґРѕР±Р°РІРѕРє, С‚РѕР»СЊРєРѕ С‡РёСЃС‚С‹Р№ РІРєСѓСЃ.</p>
+      <span class="hero-badge">Премиум чай с 2016</span>
+      <h1>Настоящий чай<br>для настоящих ценителей</h1>
+      <p class="hero-text">Прямые поставки из лучших чайных плантаций мира. Без посредников, без добавок, только чистый вкус.</p>
       <div class="hero-buttons">
-        <a href="#products" class="btn btn-primary">Р’С‹Р±СЂР°С‚СЊ С‡Р°Р№</a>
-        <a href="#about" class="btn btn-secondary">РЈР·РЅР°С‚СЊ Р±РѕР»СЊС€Рµ</a>
+        <a href="#products" class="btn btn-primary">Выбрать чай</a>
+        <a href="#about" class="btn btn-secondary">Узнать больше</a>
       </div>
       <div class="hero-features">
-        <div class="feature">
-          <span class="feature-icon">рџЊї</span>
-          <span>100% РЅР°С‚СѓСЂР°Р»СЊРЅС‹Р№</span>
-        </div>
-        <div class="feature">
-          <span class="feature-icon">рџ“¦</span>
-          <span>Р”РѕСЃС‚Р°РІРєР° Р·Р° 2 РґРЅСЏ</span>
-        </div>
-        <div class="feature">
-          <span class="feature-icon">рџЏ†</span>
-          <span>РџСЂРµРјРёРё Р·Р° РєР°С‡РµСЃС‚РІРѕ</span>
-        </div>
+        <div class="feature"><span class="feature-icon">🌿</span><span>100% натуральный</span></div>
+        <div class="feature"><span class="feature-icon">📦</span><span>Доставка за 2 дня</span></div>
+        <div class="feature"><span class="feature-icon">🏆</span><span>Премиум качество</span></div>
       </div>
     </div>
     <div class="hero-image">
-      <div class="tea-circle">рџЌµ</div>
+      <div class="hero-decoration">
+        <div class="tea-leaf l1">🍃</div>
+        <div class="tea-leaf l2">🍃</div>
+        <div class="tea-leaf l3">🍃</div>
+        <div class="tea-circle">🍵</div>
+      </div>
     </div>
   </div>
 </section>
@@ -59,16 +459,21 @@
   <div class="container">
     <div class="about-grid">
       <div class="about-content">
-        <h2>РСЃС‚РѕСЂРёСЏ С‡Р°Р№РЅРѕР№ Р»Р°РІРєРё</h2>
-        <p>РњС‹ РїСѓС‚РµС€РµСЃС‚РІСѓРµРј РїРѕ С‡Р°Р№РЅС‹Рј СЂРµРіРёРѕРЅР°Рј РјРёСЂР° СѓР¶Рµ 10 Р»РµС‚. Р›РёС‡РЅРѕ РѕС‚Р±РёСЂР°РµРј РєР°Р¶РґС‹Р№ СЃРѕСЂС‚, РїСЂРѕРІРµСЂСЏРµРј РєР°С‡РµСЃС‚РІРѕ РЅР° РјРµСЃС‚Рµ.</p>
+        <span class="section-label">О нас</span>
+        <h2>История чайной лавки</h2>
+        <p>Мы путешествуем по чайным регионам мира уже 10 лет. Лично отбираем каждый сорт, проверяем качество на месте и привозим только лучший чай прямо в вашу чашку.</p>
         <div class="stats">
           <div class="stat">
-            <div class="stat-number">50+</div>
-            <div class="stat-label">РЎРѕСЂС‚РѕРІ С‡Р°СЏ</div>
+            <div class="stat-number" data-count="30">0</div>
+            <div class="stat-label">Сортов чая</div>
           </div>
           <div class="stat">
-            <div class="stat-number">5000+</div>
-            <div class="stat-label">Р”РѕРІРѕР»СЊРЅС‹С… РєР»РёРµРЅС‚РѕРІ</div>
+            <div class="stat-number" data-count="500">0</div>
+            <div class="stat-label">Довольных клиентов</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number" data-count="6">0</div>
+            <div class="stat-label">Стран-поставщиков</div>
           </div>
         </div>
       </div>
@@ -78,55 +483,72 @@
 
 <section class="products" id="products">
   <div class="container">
-    <h2 class="section-title">РќР°С€Рё С‡Р°Рё</h2>
+    <span class="section-label">Каталог</span>
+    <h2 class="section-title">Наши чаи</h2>
     <div class="products-grid">
       <div class="product-card">
-        <h3>Р”Р° РҐСѓРЅ РџР°Рѕ</h3>
-        <p>РљСЂР°СЃРЅС‹Р№ С‡Р°Р№ СЃ РіР»СѓР±РѕРєРёРј РІРєСѓСЃРѕРј</p>
-        <p class="product-price">2 500 в‚Ѕ / 100Рі</p>
-        <button class="btn btn-primary">Р’ РєРѕСЂР·РёРЅСѓ</button>
+        <div class="product-tag" style="background:#e74c3c">красный</div>
+        <h3>Да Хун Пао</h3>
+        <p>Красный чай с глубоким вкусом и медовым послевкусием</p>
+        <p class="product-meta">🇨🇳 Китай, Уишань</p>
+        <p class="product-price">2 500 ₽ / 100г</p>
+        <button class="btn btn-primary add-to-cart" data-name="Да Хун Пао" data-price="2500">В корзину</button>
       </div>
       <div class="product-card">
-        <h3>РџСѓСЌСЂ РЁСѓ</h3>
-        <p>Р¤РµСЂРјРµРЅС‚РёСЂРѕРІР°РЅРЅС‹Р№ С‡Р°Р№ РёР· Р®РЅСЊРЅР°РЅСЏ</p>
-        <p class="product-price">1 800 в‚Ѕ / 100Рі</p>
-        <button class="btn btn-primary">Р’ РєРѕСЂР·РёРЅСѓ</button>
+        <div class="product-tag" style="background:#2c3e50">чёрный</div>
+        <h3>Пуэр Шу</h3>
+        <p>Выдержанный ферментированный чай из Юньнаня</p>
+        <p class="product-meta">🇨🇳 Китай, Юньнань</p>
+        <p class="product-price">1 800 ₽ / 100г</p>
+        <button class="btn btn-primary add-to-cart" data-name="Пуэр Шу" data-price="1800">В корзину</button>
       </div>
       <div class="product-card">
-        <h3>РњР°С‚С‡Р°</h3>
-        <p>РЇРїРѕРЅСЃРєРёР№ РїРѕСЂРѕС€РєРѕРІС‹Р№ С‡Р°Р№</p>
-        <p class="product-price">3 200 в‚Ѕ / 30Рі</p>
-        <button class="btn btn-primary">Р’ РєРѕСЂР·РёРЅСѓ</button>
+        <div class="product-tag" style="background:#27ae60">зелёный</div>
+        <h3>Матча</h3>
+        <p>Японский порошковый чай высшего сорта для чайной церемонии</p>
+        <p class="product-meta">🇯🇵 Япония, Удзи</p>
+        <p class="product-price">3 200 ₽ / 30г</p>
+        <button class="btn btn-primary add-to-cart" data-name="Матча" data-price="3200">В корзину</button>
       </div>
       <div class="product-card">
-        <h3>РўРµ Р“СѓР°РЅСЊ РРЅСЊ</h3>
-        <p>РЎРІРµС‚Р»С‹Р№ СѓР»СѓРЅ СЃ С†РІРµС‚РѕС‡РЅС‹Рј Р°СЂРѕРјР°С‚РѕРј</p>
-        <p class="product-price">2 200 в‚Ѕ / 100Рі</p>
-        <button class="btn btn-primary">Р’ РєРѕСЂР·РёРЅСѓ</button>
+        <div class="product-tag" style="background:#8e44ad">улун</div>
+        <h3>Те Гуань Инь</h3>
+        <p>Светлый улун с цветочным ароматом сирени</p>
+        <p class="product-meta">🇨🇳 Китай, Фуцзянь</p>
+        <p class="product-price">2 200 ₽ / 100г</p>
+        <button class="btn btn-primary add-to-cart" data-name="Те Гуань Инь" data-price="2200">В корзину</button>
       </div>
       <div class="product-card">
-        <h3>Р¦РµР№Р»РѕРЅСЃРєРёР№</h3>
-        <p>РљР»Р°СЃСЃРёС‡РµСЃРєРёР№ С‡С‘СЂРЅС‹Р№ С‡Р°Р№</p>
-        <p class="product-price">1 200 в‚Ѕ / 100Рі</p>
-        <button class="btn btn-primary">Р’ РєРѕСЂР·РёРЅСѓ</button>
+        <div class="product-tag" style="background:#2c3e50">чёрный</div>
+        <h3>Цейлонский</h3>
+        <p>Классический чёрный чай с плантаций Нувара Элия</p>
+        <p class="product-meta">🇱🇰 Шри-Ланка</p>
+        <p class="product-price">1 200 ₽ / 100г</p>
+        <button class="btn btn-primary add-to-cart" data-name="Цейлонский" data-price="1200">В корзину</button>
       </div>
       <div class="product-card">
-        <h3>Р­СЂР» Р“СЂРµР№</h3>
-        <p>Р§С‘СЂРЅС‹Р№ С‡Р°Р№ СЃ Р±РµСЂРіР°РјРѕС‚РѕРј</p>
-        <p class="product-price">1 400 в‚Ѕ / 100Рі</p>
-        <button class="btn btn-primary">Р’ РєРѕСЂР·РёРЅСѓ</button>
+        <div class="product-tag" style="background:#2c3e50">чёрный</div>
+        <h3>Эрл Грей</h3>
+        <p>Чёрный чай с натуральным бергамотом</p>
+        <p class="product-meta">🇱🇰 Шри-Ланка</p>
+        <p class="product-price">1 400 ₽ / 100г</p>
+        <button class="btn btn-primary add-to-cart" data-name="Эрл Грей" data-price="1400">В корзину</button>
       </div>
       <div class="product-card">
-        <h3>РРјР±РёСЂРЅС‹Р№</h3>
-        <p>РўСЂР°РІСЏРЅРѕР№ С‡Р°Р№ СЃ РёРјР±РёСЂРµРј Рё Р»РёРјРѕРЅРѕРј</p>
-        <p class="product-price">900 в‚Ѕ / 100Рі</p>
-        <button class="btn btn-primary">Р’ РєРѕСЂР·РёРЅСѓ</button>
+        <div class="product-tag" style="background:#e67e22">травяной</div>
+        <h3>Имбирный</h3>
+        <p>Травяной чай с имбирём, лимоном и мёдом</p>
+        <p class="product-meta">🇷🇺 Россия</p>
+        <p class="product-price">900 ₽ / 100г</p>
+        <button class="btn btn-primary add-to-cart" data-name="Имбирный" data-price="900">В корзину</button>
       </div>
       <div class="product-card">
-        <h3>РЎРµРЅС‡Р°</h3>
-        <p>РЇРїРѕРЅСЃРєРёР№ Р·РµР»С‘РЅС‹Р№ С‡Р°Р№</p>
-        <p class="product-price">1 600 в‚Ѕ / 100Рі</p>
-        <button class="btn btn-primary">Р’ РєРѕСЂР·РёРЅСѓ</button>
+        <div class="product-tag" style="background:#27ae60">зелёный</div>
+        <h3>Сенча</h3>
+        <p>Японский зелёный чай с ярким травянистым вкусом</p>
+        <p class="product-meta">🇯🇵 Япония</p>
+        <p class="product-price">1 600 ₽ / 100г</p>
+        <button class="btn btn-primary add-to-cart" data-name="Сенча" data-price="1600">В корзину</button>
       </div>
     </div>
   </div>
@@ -134,32 +556,32 @@
 
 <section class="benefits" id="benefits">
   <div class="container">
-    <h2 class="section-title">РџРѕС‡РµРјСѓ РІС‹Р±РёСЂР°СЋС‚ РЅР°СЃ</h2>
+    <h2 class="section-title">Почему выбирают нас</h2>
     <div class="benefits-grid">
       <div class="benefit">
-        <div class="benefit-icon">вњ€пёЏ</div>
-        <h3>РџСЂСЏРјС‹Рµ РїРѕСЃС‚Р°РІРєРё</h3>
-        <p>РР· Р»СѓС‡С€РёС… С‡Р°Р№РЅС‹С… СЂРµРіРёРѕРЅРѕРІ РјРёСЂР°</p>
+        <div class="benefit-icon">✈️</div>
+        <h3>Прямые поставки</h3>
+        <p>Из лучших чайных регионов мира</p>
       </div>
       <div class="benefit">
-        <div class="benefit-icon">рџЊ±</div>
-        <h3>100% РЅР°С‚СѓСЂР°Р»СЊРЅС‹Р№</h3>
-        <p>Р‘РµР· Р°СЂРѕРјР°С‚РёР·Р°С‚РѕСЂРѕРІ Рё РґРѕР±Р°РІРѕРє</p>
+        <div class="benefit-icon">🌱</div>
+        <h3>100% натуральный</h3>
+        <p>Без ароматизаторов и добавок</p>
       </div>
       <div class="benefit">
-        <div class="benefit-icon">рџ“¦</div>
-        <h3>Р”РѕСЃС‚Р°РІРєР° Р·Р° 2 РґРЅСЏ</h3>
-        <p>РџРѕ РІСЃРµР№ Р РѕСЃСЃРёРё</p>
+        <div class="benefit-icon">📦</div>
+        <h3>Доставка за 2 дня</h3>
+        <p>По всей России</p>
       </div>
       <div class="benefit">
-        <div class="benefit-icon">рџЏ†</div>
-        <h3>РџСЂРµРјРёРё Р·Р° РєР°С‡РµСЃС‚РІРѕ</h3>
-        <p>Р›СѓС‡С€РёР№ С‡Р°Р№ 2024-2025</p>
+        <div class="benefit-icon">🏆</div>
+        <h3>Премиум качество</h3>
+        <p>Лучший чай 2024-2025</p>
       </div>
       <div class="benefit">
-        <div class="benefit-icon">рџЋЃ</div>
-        <h3>РџРѕРґР°СЂРѕС‡РЅР°СЏ СѓРїР°РєРѕРІРєР°</h3>
-        <p>Р”Р»СЏ РІР°С€РёС… Р±Р»РёР·РєРёС…</p>
+        <div class="benefit-icon">🎁</div>
+        <h3>Подарочная упаковка</h3>
+        <p>Для ваших близких</p>
       </div>
     </div>
   </div>
@@ -167,46 +589,381 @@
 
 <section class="reviews" id="reviews">
   <div class="container">
-    <h2 class="section-title">РћС‚Р·С‹РІС‹</h2>
-    <div class="reviews-grid">
-      <div class="review-card">
-        <p>"РћС‚Р»РёС‡РЅС‹Р№ С‡Р°Р№!"</p>
+    <span class="section-label">Отзывы</span>
+    <h2 class="section-title">Что говорят наши клиенты</h2>
+    <div class="reviews-carousel" id="reviewsCarousel">
+      <div class="review-card active">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Заказываю чай в этой лавке уже полгода. Да Хун Пао — просто божественный вкус. Доставка всегда вовремя, спасибо!"</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#2d6a4f">А</div>
+          <div><strong>Анна</strong><br><small>постоянный клиент</small></div>
+        </div>
       </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Отличный сервис и невероятное качество чая! Матча в этой лавке — лучшая, что я пробовала. Рекомендую всем любителям чайных церемоний."</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#d4a373">Е</div>
+          <div><strong>Екатерина</strong><br><small>чайный мастер</small></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Беру пуэр Шу регулярно. Каждый раз — ровный, насыщенный вкус без сюрпризов. Цены адекватные за такое качество. Буду заказывать ещё."</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#1b4332">М</div>
+          <div><strong>Михаил</strong><br><small>клиент с 2024</small></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Покупал в подарок набор из 5 чаёв. Упаковка шикарная, получатель в восторге. Теперь сам стал постоянным покупателем. Спасибо за ваш труд!"</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#40916c">Д</div>
+          <div><strong>Дмитрий</strong><br><small>подарочный набор</small></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★☆</div>
+        <p class="review-text">"Хороший чай, большой выбор. Доставка быстрая. Единственное — хотелось бы больше информации о каждом сорте на сайте. Но в остальном всё отлично!"</p>
+        <div class="review-author">
+          <div class="review-avatar" style="background:#6c757d">С</div>
+          <div><strong>Светлана</strong><br><small>новый клиент</small></div>
+        </div>
+      </div>
+    </div>
+    <div class="reviews-dots" id="reviewsDots">
+      <button class="dot active" data-slide="0"></button>
+      <button class="dot" data-slide="1"></button>
+      <button class="dot" data-slide="2"></button>
+      <button class="dot" data-slide="3"></button>
+      <button class="dot" data-slide="4"></button>
     </div>
   </div>
 </section>
 
 <section class="cta" id="contact">
   <div class="container">
-    <h2>Р—Р°РєР°Р·Р°С‚СЊ С‡Р°Р№</h2>
-    <form class="cta-form">
-      <input type="text" placeholder="Р’Р°С€Рµ РёРјСЏ" />
-      <button class="btn btn-accent">РћС‚РїСЂР°РІРёС‚СЊ</button>
+    <span class="section-label" style="color:rgba(255,255,255,0.7)">Контакты</span>
+    <h2>Свяжитесь с нами</h2>
+    <p class="cta-sub">Оставьте заявку — мы подберём чай специально для вас</p>
+    <form class="cta-form" id="orderForm">
+      <div class="form-row">
+        <input type="text" placeholder="Ваше имя" required>
+        <input type="tel" placeholder="+7 (999) 123-45-67" required>
+      </div>
+      <div class="form-row">
+        <input type="email" placeholder="Email (необязательно)">
+        <input type="text" placeholder="Какой чай интересует?">
+      </div>
+      <button class="btn btn-accent" type="submit">Отправить заявку</button>
     </form>
   </div>
 </section>
 
+</main>
 
-  </main>
-  
-  <footer class="footer">
+<footer class="footer">
   <div class="container">
-    <p>&copy; 2026 Р§Р°Р№РЅР°СЏ Р›Р°РІРєР°</p>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-logo">🍃 Чайная Лавка</div>
+        <p class="footer-desc">Прямые поставки чая из Китая, Индии, Японии и Цейлона. Натуральный продукт без добавок.</p>
+        <div class="footer-social">
+          <a href="https://t.me/chainaya_lavka" target="_blank" aria-label="Telegram">📱 Telegram</a>
+          <a href="https://wa.me/79991234567" target="_blank" aria-label="WhatsApp">💬 WhatsApp</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Контакты</h4>
+        <p>📞 +7 (999) 123-45-67</p>
+        <p>✉️ info@chainaya-lavka.ru</p>
+        <p>🕐 Пн-Пт: 10:00–19:00</p>
+        <p>🕐 Сб-Вс: 11:00–17:00</p>
+      </div>
+      <div class="footer-col">
+        <h4>Категории чая</h4>
+        <a href="#products">Зелёный чай</a>
+        <a href="#products">Чёрный чай</a>
+        <a href="#products">Улуны</a>
+        <a href="#products">Травяные чаи</a>
+        <a href="#products">Премиум серия</a>
+      </div>
+      <div class="footer-col">
+        <h4>Подписка</h4>
+        <p>Будьте в курсе новинок и акций</p>
+        <form class="footer-form" id="subscribeForm">
+          <input type="email" placeholder="Ваш email" required>
+          <button class="btn btn-accent btn-small" type="submit">Подписаться</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Чайная Лавка. Все права защищены.</p>
+    </div>
   </div>
 </footer>
 
-  
-  <script>
-    // РџР»Р°РІРЅР°СЏ РїСЂРѕРєСЂСѓС‚РєР°
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-          behavior: 'smooth'
-        });
+<script>
+  // Карусель отзывов
+  (function () {
+    const carousel = document.getElementById('reviewsCarousel');
+    const dots = document.querySelectorAll('.dot');
+    if (!carousel || !dots.length) return;
+    const slides = carousel.querySelectorAll('.review-card');
+    let current = 0;
+
+    function showSlide(idx) {
+      slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      current = idx;
+    }
+
+    dots.forEach(d => d.addEventListener('click', () => showSlide(parseInt(d.dataset.slide))));
+    setInterval(() => showSlide((current + 1) % slides.length), 5000);
+  })();
+
+  // Анимация счётчиков
+  (function () {
+    const counters = document.querySelectorAll('.stat-number[data-count]');
+    if (!counters.length) return;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.count);
+          let current = 0;
+          const step = Math.ceil(target / 40);
+          const timer = setInterval(() => {
+            current += step;
+            if (current >= target) { current = target; clearInterval(timer); }
+            el.textContent = current + '+';
+          }, 30);
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(c => observer.observe(c));
+  })();
+
+  // Форма заказа — отправка в WhatsApp
+  document.getElementById('orderForm')?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const data = new FormData(this);
+    const vals = [...data.values()].filter(Boolean);
+    const msg = encodeURIComponent('Новая заявка с сайта:\n' + vals.map((v, i) => `${i + 1}. ${v}`).join('\n'));
+    window.open(`https://wa.me/79991234567?text=${msg}`, '_blank');
+    showToast('✅ Заявка отправлена!');
+    this.reset();
+  });
+
+  // Подписка
+  document.getElementById('subscribeForm')?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const email = this.querySelector('input').value;
+    showToast(`📧 ${email} — спасибо за подписку!`);
+    this.reset();
+  });
+</script>
+<div class="toast" id="toast"></div>
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-panel" id="cartPanel"><div class="cart-header"><h2>🛒 Корзина</h2><button class="cart-close" id="cartClose">&times;</button></div><div class="cart-items" id="cartItems"><p class="cart-empty">Корзина пуста</p></div><div class="cart-footer"><div class="cart-total">Итого: <span id="cartTotal">0</span> ₽</div><button class="btn btn-accent" id="cartCheckout" style="width:100%">Оформить заказ</button></div></div>
+<script>
+
+    // ═══════════════════════════════════════════
+    // Мобильное меню
+    // ═══════════════════════════════════════════
+    document.getElementById('hamburger').addEventListener('click', function () {
+      this.classList.toggle('active');
+      document.getElementById('nav').classList.toggle('active');
+    });
+
+    // Закрыть меню при клике на ссылку
+    document.querySelectorAll('.nav a').forEach(a => {
+      a.addEventListener('click', () => {
+        document.getElementById('nav').classList.remove('active');
+        document.getElementById('hamburger').classList.remove('active');
       });
     });
-  </script>
+
+    // ═══════════════════════════════════════════
+    // Корзина
+    // ═══════════════════════════════════════════
+    let cart = JSON.parse(localStorage.getItem('teaCart')) || [];
+
+    function saveCart() {
+      localStorage.setItem('teaCart', JSON.stringify(cart));
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const count = cart.reduce((s, i) => s + i.qty, 0);
+      document.getElementById('cartCount').textContent = count;
+
+      const items = document.getElementById('cartItems');
+      const totalEl = document.getElementById('cartTotal');
+      if (!cart.length) {
+        items.innerHTML = '<p class="cart-empty">Корзина пуста</p>';
+        totalEl.textContent = '0';
+        return;
+      }
+      let html = '';
+      let total = 0;
+      cart.forEach((item, idx) => {
+        total += item.price * item.qty;
+        html += `
+          <div class="cart-item">
+            <div class="cart-item-info">
+              <div class="cart-item-name">${item.name}</div>
+              <div class="cart-item-price">${item.price} ₽ × ${item.qty}</div>
+            </div>
+            <button class="cart-item-remove" data-index="${idx}">&times;</button>
+          </div>`;
+      });
+      items.innerHTML = html;
+      totalEl.textContent = total.toLocaleString();
+
+      items.querySelectorAll('.cart-item-remove').forEach(btn => {
+        btn.addEventListener('click', function () {
+          const idx = parseInt(this.dataset.index);
+          cart.splice(idx, 1);
+          saveCart();
+        });
+      });
+    }
+
+    document.getElementById('cartBtn').addEventListener('click', () => {
+      document.getElementById('cartOverlay').classList.add('active');
+      document.getElementById('cartPanel').classList.add('active');
+    });
+
+    document.getElementById('cartClose').addEventListener('click', closeCart);
+    document.getElementById('cartOverlay').addEventListener('click', closeCart);
+    function closeCart() {
+      document.getElementById('cartOverlay').classList.remove('active');
+      document.getElementById('cartPanel').classList.remove('active');
+    }
+
+    // Добавление в корзину
+    document.querySelectorAll('.add-to-cart').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const name = this.dataset.name;
+        const price = parseInt(this.dataset.price);
+        const existing = cart.find(i => i.name === name);
+        if (existing) {
+          existing.qty++;
+        } else {
+          cart.push({ name, price, qty: 1 });
+        }
+        saveCart();
+        showToast(`🍃 ${name} добавлен в корзину`);
+        // Анимация кнопки
+        this.textContent = '✓ Добавлено';
+        setTimeout(() => { this.textContent = 'В корзину'; }, 1500);
+      });
+    });
+
+    // ═══════════════════════════════════════════
+    // Toast уведомления
+    // ═══════════════════════════════════════════
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('active');
+      setTimeout(() => t.classList.remove('active'), 2500);
+    }
+
+    // Оформление заказа
+    document.getElementById('cartCheckout').addEventListener('click', () => {
+      if (!cart.length) { showToast('Корзина пуста'); return; }
+      const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      const items = cart.map(i => `${i.name} (${i.qty}×${i.price}₽)`).join(', ');
+      const msg = encodeURIComponent(`Новый заказ:\n${items}\nИтого: ${total}₽`);
+      window.open(`https://wa.me/79991234567?text=${msg}`, '_blank');
+      cart = [];
+      saveCart();
+      closeCart();
+      showToast('✅ Заказ отправлен в WhatsApp!');
+    });
+
+    // ═══════════════════════════════════════════
+    // Плавная прокрутка
+    // ═══════════════════════════════════════════
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Инициализация
+    updateCartUI();
+  
+
+  // Карусель отзывов
+  (function () {
+    const carousel = document.getElementById('reviewsCarousel');
+    const dots = document.querySelectorAll('.dot');
+    if (!carousel || !dots.length) return;
+    const slides = carousel.querySelectorAll('.review-card');
+    let current = 0;
+
+    function showSlide(idx) {
+      slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      current = idx;
+    }
+
+    dots.forEach(d => d.addEventListener('click', () => showSlide(parseInt(d.dataset.slide))));
+    setInterval(() => showSlide((current + 1) % slides.length), 5000);
+  })();
+
+  // Анимация счётчиков
+  (function () {
+    const counters = document.querySelectorAll('.stat-number[data-count]');
+    if (!counters.length) return;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.count);
+          let current = 0;
+          const step = Math.ceil(target / 40);
+          const timer = setInterval(() => {
+            current += step;
+            if (current >= target) { current = target; clearInterval(timer); }
+            el.textContent = current + '+';
+          }, 30);
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(c => observer.observe(c));
+  })();
+
+  // Форма заказа — отправка в WhatsApp
+  document.getElementById('orderForm')?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const data = new FormData(this);
+    const vals = [...data.values()].filter(Boolean);
+    const msg = encodeURIComponent('Новая заявка с сайта:\n' + vals.map((v, i) => `${i + 1}. ${v}`).join('\n'));
+    window.open(`https://wa.me/79991234567?text=${msg}`, '_blank');
+    showToast('✅ Заявка отправлена!');
+    this.reset();
+  });
+
+  // Подписка
+  document.getElementById('subscribeForm')?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const email = this.querySelector('input').value;
+    showToast(`📧 ${email} — спасибо за подписку!`);
+    this.reset();
+  });
+
+</script>
 </body>
 </html>
-
