@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Чайная Лавка</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f2f5;
+      color: #1a1a2e;
+      padding: 32px;
+    }
+    .admin-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 32px; flex-wrap: wrap; gap: 16px;
+    }
+    .admin-header h1 { font-size: 28px; color: #1a1a2e; }
+    .admin-header h1 span { color: #2d6a4f; }
+    .header-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .card h2 { font-size: 18px; margin-bottom: 16px; color: #333; }
+
+    .token-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .token-bar input {
+      flex: 1; min-width: 280px;
+      padding: 10px 16px; border: 1px solid #ddd;
+      border-radius: 10px; font-size: 14px; font-family: monospace;
+    }
+    .token-bar .status { font-size: 13px; color: #888; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 20px; border-radius: 10px;
+      border: none; font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: #2d6a4f; color: #fff; }
+    .btn-primary:hover { background: #1b4332; }
+    .btn-danger { background: #e74c3c; color: #fff; }
+    .btn-danger:hover { background: #c0392b; }
+    .btn-outline { background: transparent; border: 1px solid #ddd; color: #666; }
+    .btn-outline:hover { background: #f5f5f5; }
+    .btn-sm { padding: 6px 14px; font-size: 13px; }
+
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: #1a1a2e; color: #fff;
+      padding: 14px 28px; border-radius: 12px; font-size: 14px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      opacity: 0; transition: opacity 0.3s; z-index: 9999;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; }
+
+    .product-form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .product-form .full { grid-column: 1 / -1; }
+    .product-form label { font-size: 13px; font-weight: 600; color: #555; margin-bottom: 4px; display: block; }
+    .product-form input, .product-form select, .product-form textarea {
+      width: 100%; padding: 10px 14px; border: 1px solid #ddd;
+      border-radius: 10px; font-size: 14px;
+    }
+    .product-form textarea { resize: vertical; min-height: 60px; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    thead { background: #f8f9fa; }
+    th { text-align: left; padding: 12px 14px; font-weight: 600; color: #555; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+    td { padding: 12px 14px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+    tr:hover td { background: #fafafa; }
+    .cat-badge {
+      display: inline-block; padding: 3px 10px; border-radius: 12px;
+      color: #fff; font-size: 11px; font-weight: 600; text-transform: uppercase;
+    }
+    .actions { display: flex; gap: 6px; }
+    .actions .btn { padding: 6px 12px; font-size: 12px; }
+
+    .inline-edit { display: none; }
+    .inline-edit.active { display: block; }
+    .inline-view.hidden { display: none; }
+    td input, td textarea {
+      width: 100%; padding: 6px 10px; border: 1px solid #2d6a4f;
+      border-radius: 6px; font-size: 13px;
+    }
+    td textarea { min-height: 40px; }
+
+    .empty { text-align: center; color: #999; padding: 40px; font-size: 15px; }
+
+    @media (max-width: 768px) {
+      body { padding: 16px; }
+      .product-form { grid-template-columns: 1fr; }
+      table { font-size: 13px; }
+      th, td { padding: 8px 10px; }
+      .admin-header h1 { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="admin-header">
+  <h1>🍃 <span>Чайная Лавка</span> — Админ-панель</h1>
+  <div class="header-actions">
+    <button class="btn btn-outline" onclick="loadFromGitHub()">📥 Загрузить с GitHub</button>
+    <button class="btn btn-primary" onclick="saveToGitHub()">💾 Сохранить на GitHub</button>
+    <a href="/tea/" class="btn btn-outline" target="_blank">🌐 Сайт</a>
+  </div>
+</div>
+
+<div class="card">
+  <h2>🔑 GitHub токен</h2>
+  <div class="token-bar">
+    <input type="password" id="tokenInput" placeholder="ghp_... или github_pat_..." value="">
+    <button class="btn btn-primary btn-sm" onclick="saveToken()">Сохранить</button>
+    <span class="status" id="tokenStatus">не сохранён</span>
+  </div>
+  <p style="font-size:12px;color:#999;margin-top:8px;">Токен хранится в sessionStorage — живёт до закрытия вкладки. Нужны права <code>repo</code> или <code>contents:write</code>.</p>
+</div>
+
+<div class="card">
+  <h2>➕ Добавить товар</h2>
+  <div class="product-form">
+    <div>
+      <label>Название</label>
+      <input type="text" id="newName" placeholder="Да Хун Пао">
+    </div>
+    <div>
+      <label>Категория</label>
+      <select id="newCategory">
+        <option value="зелёный">Зелёный</option>
+        <option value="чёрный">Чёрный</option>
+        <option value="красный">Красный</option>
+        <option value="улун">Улун</option>
+        <option value="травяной">Травяной</option>
+        <option value="премиум">Премиум</option>
+      </select>
+    </div>
+    <div class="full">
+      <label>Описание</label>
+      <textarea id="newDesc" placeholder="Красный чай с глубоким вкусом и медовым послевкусием"></textarea>
+    </div>
+    <div>
+      <label>Страна / регион</label>
+      <input type="text" id="newOrigin" placeholder="🇨🇳 Китай, Уишань">
+    </div>
+    <div>
+      <label>Цена (₽)</label>
+      <input type="number" id="newPrice" placeholder="2500">
+    </div>
+    <div>
+      <label>Единица</label>
+      <input type="text" id="newUnit" placeholder="100г" value="100г">
+    </div>
+    <div class="full">
+      <button class="btn btn-primary" onclick="addProduct()">➕ Добавить</button>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>📦 Товары (<span id="productCount">0</span>)</h2>
+  <div style="overflow-x:auto">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Название</th>
+          <th>Категория</th>
+          <th>Описание</th>
+          <th>Происхождение</th>
+          <th>Цена</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="productsBody">
+        <tr><td colspan="7" class="empty">Загрузите данные с GitHub или откройте страницу</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const REPO = 'Davinchi21/tea';
+  const BRANCH = 'master';
+  const PATH = 'data/products.json';
+  let products = [];
+
+  // ═══════ TOKEN ═══════
+  function saveToken() {
+    const val = document.getElementById('tokenInput').value.trim();
+    if (!val) { setTokenStatus('введите токен', '#e74c3c'); return; }
+    sessionStorage.setItem('gh_token', val);
+    setTokenStatus('сохранён ✓', '#2d6a4f');
+    showToast('🔑 Токен сохранён');
+  }
+
+  function setTokenStatus(text, color) {
+    const el = document.getElementById('tokenStatus');
+    el.textContent = text; el.style.color = color || '#888';
+  }
+
+  function getToken() {
+    const t = sessionStorage.getItem('gh_token');
+    if (t) document.getElementById('tokenInput').value = t;
+    return t;
+  }
+
+  // ═══════ TOAST ═══════
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // ═══════ RENDER ═══════
+  function render() {
+    const body = document.getElementById('productsBody');
+    if (!products.length) {
+      body.innerHTML = '<tr><td colspan="7" class="empty">Нет товаров</td></tr>';
+      document.getElementById('productCount').textContent = '0';
+      return;
+    }
+    document.getElementById('productCount').textContent = products.length;
+    body.innerHTML = products.map((p, idx) => `
+      <tr>
+        <td style="color:#999;font-size:12px">${p.id}</td>
+        <td>
+          <span class="inline-view" id="view-name-${idx}">${p.name}</span>
+          <input class="inline-edit" id="edit-name-${idx}" value="${p.name}">
+        </td>
+        <td>
+          <span class="inline-view" id="view-cat-${idx}"><span class="cat-badge" style="background:${p.category_color}">${p.category}</span></span>
+          <select class="inline-edit" id="edit-cat-${idx}" style="display:none">
+            ${['зелёный','чёрный','красный','улун','травяной','премиум'].map(c =>
+              `<option value="${c}" ${c === p.category ? 'selected' : ''}>${c}</option>`
+            ).join('')}
+          </select>
+        </td>
+        <td>
+          <span class="inline-view" id="view-desc-${idx}">${p.description}</span>
+          <textarea class="inline-edit" id="edit-desc-${idx}" style="display:none">${p.description}</textarea>
+        </td>
+        <td>
+          <span class="inline-view" id="view-origin-${idx}">${p.origin}</span>
+          <input class="inline-edit" id="edit-origin-${idx}" value="${p.origin}">
+        </td>
+        <td>
+          <span class="inline-view" id="view-price-${idx}">${p.price_label}</span>
+          <div class="inline-edit" id="edit-price-${idx}" style="display:none">
+            <input type="number" id="edit-price-val-${idx}" value="${p.price}" style="width:80px;display:inline-block">
+            <input type="text" id="edit-unit-${idx}" value="${p.unit}" style="width:60px;display:inline-block" placeholder="100г">
+          </div>
+        </td>
+        <td class="actions">
+          <button class="btn btn-primary btn-sm" id="edit-btn-${idx}" onclick="toggleEdit(${idx})">✎</button>
+          <button class="btn btn-primary btn-sm" id="save-btn-${idx}" style="display:none" onclick="saveEdit(${idx})">✓</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteProduct(${idx})">✕</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  // ═══════ CRUD ═══════
+  function addProduct() {
+    const name = document.getElementById('newName').value.trim();
+    const desc = document.getElementById('newDesc').value.trim();
+    const origin = document.getElementById('newOrigin').value.trim();
+    const price = parseInt(document.getElementById('newPrice').value);
+    const unit = document.getElementById('newUnit').value.trim() || '100г';
+    const cat = document.getElementById('newCategory').value;
+    if (!name || !desc || !origin || !price) { showToast('⚠️ Заполните все поля'); return; }
+
+    const colors = { 'зелёный':'#27ae60','чёрный':'#2c3e50','красный':'#e74c3c','улун':'#8e44ad','травяной':'#e67e22','премиум':'#f39c12' };
+    const maxId = products.length ? Math.max(...products.map(p => p.id)) : 0;
+    const fmt = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
+    products.push({
+      id: maxId + 1,
+      name,
+      description: desc,
+      category: cat,
+      category_color: colors[cat] || '#999',
+      origin,
+      price,
+      unit,
+      price_label: `${fmt} ₽ / ${unit}`
+    });
+
+    document.getElementById('newName').value = '';
+    document.getElementById('newDesc').value = '';
+    document.getElementById('newOrigin').value = '';
+    document.getElementById('newPrice').value = '';
+    render();
+    showToast(`✅ ${name} добавлен`);
+  }
+
+  function deleteProduct(idx) {
+    if (!confirm(`Удалить "${products[idx].name}"?`)) return;
+    const name = products[idx].name;
+    products.splice(idx, 1);
+    render();
+    showToast(`🗑️ ${name} удалён`);
+  }
+
+  function toggleEdit(idx) {
+    const fields = ['name','cat','desc','origin','price'];
+    const isEditing = document.getElementById(`edit-name-${idx}`).style.display !== 'none';
+    fields.forEach(f => {
+      const view = document.getElementById(`view-${f}-${idx}`);
+      const edit = document.getElementById(`edit-${f}-${idx}`);
+      if (isEditing) {
+        view.style.display = '';
+        edit.style.display = 'none';
+      } else {
+        view.style.display = 'none';
+        edit.style.display = '';
+      }
+    });
+    document.getElementById(`edit-btn-${idx}`).textContent = isEditing ? '✎' : '✎';
+    document.getElementById(`save-btn-${idx}`).style.display = isEditing ? 'none' : '';
+  }
+
+  function saveEdit(idx) {
+    const p = products[idx];
+    const newName = document.getElementById(`edit-name-${idx}`).value.trim();
+    const newCat = document.getElementById(`edit-cat-${idx}`).value;
+    const newDesc = document.getElementById(`edit-desc-${idx}`).value.trim();
+    const newOrigin = document.getElementById(`edit-origin-${idx}`).value.trim();
+    const newPrice = parseInt(document.getElementById(`edit-price-val-${idx}`).value);
+    const newUnit = document.getElementById(`edit-unit-${idx}`).value.trim() || '100г';
+
+    if (!newName || !newDesc || !newOrigin || !newPrice) { showToast('⚠️ Заполните все поля'); return; }
+
+    const colors = { 'зелёный':'#27ae60','чёрный':'#2c3e50','красный':'#e74c3c','улун':'#8e44ad','травяной':'#e67e22','премиум':'#f39c12' };
+    const fmt = newPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
+    p.name = newName;
+    p.category = newCat;
+    p.category_color = colors[newCat] || '#999';
+    p.description = newDesc;
+    p.origin = newOrigin;
+    p.price = newPrice;
+    p.unit = newUnit;
+    p.price_label = `${fmt} ₽ / ${newUnit}`;
+
+    toggleEdit(idx);
+    render();
+    showToast(`💾 ${newName} сохранён`);
+  }
+
+  // ═══════ GITHUB ═══════
+  const API = `https://api.github.com/repos/${REPO}/contents/${PATH}`;
+
+  async function ghFetch(url, opts = {}) {
+    const token = getToken();
+    if (!token) { showToast('🔑 Введите GitHub токен'); return null; }
+    const headers = { 'Authorization': `Bearer ${token}`, 'Accept': 'application/vnd.github.v3+json' };
+    const res = await fetch(url, { ...opts, headers });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      showToast(`❌ GitHub API: ${err.message || res.statusText} (${res.status})`);
+      return null;
+    }
+    return res.json();
+  }
+
+  async function getFileSHA() {
+    const data = await ghFetch(API + `?ref=${BRANCH}`);
+    return data ? { sha: data.sha, content: data.content } : null;
+  }
+
+  async function loadFromGitHub() {
+    const data = await getFileSHA();
+    if (!data) return;
+    try {
+      const decoded = atob(data.content.replace(/\n/g, ''));
+      products = JSON.parse(decoded);
+      render();
+      showToast(`📥 Загружено ${products.length} товаров`);
+    } catch (e) {
+      showToast('❌ Ошибка парсинга JSON');
+    }
+  }
+
+  async function saveToGitHub() {
+    if (!products.length) { showToast('⚠️ Нет товаров для сохранения'); return; }
+    const data = await getFileSHA();
+    if (!data) return;
+
+    const content = JSON.stringify(products, null, 2);
+    const encoded = btoa(unescape(encodeURIComponent(content)));
+
+    const result = await ghFetch(API, {
+      method: 'PUT',
+      body: JSON.stringify({
+        message: 'Update products via admin panel',
+        content: encoded,
+        sha: data.sha,
+        branch: BRANCH
+      })
+    });
+
+    if (result) {
+      showToast(`💾 Сохранено! ${products.length} товаров. GitHub Pages обновится через 2-3 мин.`);
+    }
+  }
+
+  // ═══════ INIT ═══════
+  getToken();
+  if (getToken()) setTokenStatus('сохранён ✓', '#2d6a4f');
+
+  // Загружаем при открытии
+  loadFromGitHub();
+</script>
+</body>
+</html>

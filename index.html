@@ -485,72 +485,7 @@ section { padding: 100px 0; }
   <div class="container">
     <span class="section-label">Каталог</span>
     <h2 class="section-title">Наши чаи</h2>
-    <div class="products-grid">
-      <div class="product-card">
-        <div class="product-tag" style="background:#e74c3c">красный</div>
-        <h3>Да Хун Пао</h3>
-        <p>Красный чай с глубоким вкусом и медовым послевкусием</p>
-        <p class="product-meta">🇨🇳 Китай, Уишань</p>
-        <p class="product-price">2 500 ₽ / 100г</p>
-        <button class="btn btn-primary add-to-cart" data-name="Да Хун Пао" data-price="2500">В корзину</button>
-      </div>
-      <div class="product-card">
-        <div class="product-tag" style="background:#2c3e50">чёрный</div>
-        <h3>Пуэр Шу</h3>
-        <p>Выдержанный ферментированный чай из Юньнаня</p>
-        <p class="product-meta">🇨🇳 Китай, Юньнань</p>
-        <p class="product-price">1 800 ₽ / 100г</p>
-        <button class="btn btn-primary add-to-cart" data-name="Пуэр Шу" data-price="1800">В корзину</button>
-      </div>
-      <div class="product-card">
-        <div class="product-tag" style="background:#27ae60">зелёный</div>
-        <h3>Матча</h3>
-        <p>Японский порошковый чай высшего сорта для чайной церемонии</p>
-        <p class="product-meta">🇯🇵 Япония, Удзи</p>
-        <p class="product-price">3 200 ₽ / 30г</p>
-        <button class="btn btn-primary add-to-cart" data-name="Матча" data-price="3200">В корзину</button>
-      </div>
-      <div class="product-card">
-        <div class="product-tag" style="background:#8e44ad">улун</div>
-        <h3>Те Гуань Инь</h3>
-        <p>Светлый улун с цветочным ароматом сирени</p>
-        <p class="product-meta">🇨🇳 Китай, Фуцзянь</p>
-        <p class="product-price">2 200 ₽ / 100г</p>
-        <button class="btn btn-primary add-to-cart" data-name="Те Гуань Инь" data-price="2200">В корзину</button>
-      </div>
-      <div class="product-card">
-        <div class="product-tag" style="background:#2c3e50">чёрный</div>
-        <h3>Цейлонский</h3>
-        <p>Классический чёрный чай с плантаций Нувара Элия</p>
-        <p class="product-meta">🇱🇰 Шри-Ланка</p>
-        <p class="product-price">1 200 ₽ / 100г</p>
-        <button class="btn btn-primary add-to-cart" data-name="Цейлонский" data-price="1200">В корзину</button>
-      </div>
-      <div class="product-card">
-        <div class="product-tag" style="background:#2c3e50">чёрный</div>
-        <h3>Эрл Грей</h3>
-        <p>Чёрный чай с натуральным бергамотом</p>
-        <p class="product-meta">🇱🇰 Шри-Ланка</p>
-        <p class="product-price">1 400 ₽ / 100г</p>
-        <button class="btn btn-primary add-to-cart" data-name="Эрл Грей" data-price="1400">В корзину</button>
-      </div>
-      <div class="product-card">
-        <div class="product-tag" style="background:#e67e22">травяной</div>
-        <h3>Имбирный</h3>
-        <p>Травяной чай с имбирём, лимоном и мёдом</p>
-        <p class="product-meta">🇷🇺 Россия</p>
-        <p class="product-price">900 ₽ / 100г</p>
-        <button class="btn btn-primary add-to-cart" data-name="Имбирный" data-price="900">В корзину</button>
-      </div>
-      <div class="product-card">
-        <div class="product-tag" style="background:#27ae60">зелёный</div>
-        <h3>Сенча</h3>
-        <p>Японский зелёный чай с ярким травянистым вкусом</p>
-        <p class="product-meta">🇯🇵 Япония</p>
-        <p class="product-price">1 600 ₽ / 100г</p>
-        <button class="btn btn-primary add-to-cart" data-name="Сенча" data-price="1600">В корзину</button>
-      </div>
-    </div>
+    <div class="products-grid" id="productsGrid"></div>
   </div>
 </section>
 
@@ -845,24 +780,45 @@ section { padding: 100px 0; }
       document.getElementById('cartPanel').classList.remove('active');
     }
 
-    // Добавление в корзину
-    document.querySelectorAll('.add-to-cart').forEach(btn => {
-      btn.addEventListener('click', function () {
-        const name = this.dataset.name;
-        const price = parseInt(this.dataset.price);
-        const existing = cart.find(i => i.name === name);
-        if (existing) {
-          existing.qty++;
-        } else {
-          cart.push({ name, price, qty: 1 });
-        }
-        saveCart();
-        showToast(`🍃 ${name} добавлен в корзину`);
-        // Анимация кнопки
-        this.textContent = '✓ Добавлено';
-        setTimeout(() => { this.textContent = 'В корзину'; }, 1500);
-      });
+    // Добавление в корзину (делегирование)
+    document.getElementById('productsGrid').addEventListener('click', function (e) {
+      const btn = e.target.closest('.add-to-cart');
+      if (!btn) return;
+      const name = btn.dataset.name;
+      const price = parseInt(btn.dataset.price);
+      const existing = cart.find(i => i.name === name);
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({ name, price, qty: 1 });
+      }
+      saveCart();
+      showToast(`🍃 ${name} добавлен в корзину`);
+      btn.textContent = '✓ Добавлено';
+      setTimeout(() => { btn.textContent = 'В корзину'; }, 1500);
     });
+
+    // Загрузка товаров из JSON
+    (async function loadProducts() {
+      try {
+        const res = await fetch('data/products.json');
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const products = await res.json();
+        const grid = document.getElementById('productsGrid');
+        grid.innerHTML = products.map(p => `
+          <div class="product-card">
+            <div class="product-tag" style="background:${p.category_color}">${p.category}</div>
+            <h3>${p.name}</h3>
+            <p>${p.description}</p>
+            <p class="product-meta">${p.origin}</p>
+            <p class="product-price">${p.price_label}</p>
+            <button class="btn btn-primary add-to-cart" data-name="${p.name}" data-price="${p.price}">В корзину</button>
+          </div>
+        `).join('');
+      } catch (err) {
+        console.error('Ошибка загрузки товаров:', err);
+      }
+    })();
 
     // ═══════════════════════════════════════════
     // Toast уведомления
